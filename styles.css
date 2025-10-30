@@ -1,0 +1,84 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+#theme-selection {
+    text-align: center;
+}
+
+#theme-selection h1 {
+    font-size: 3rem;
+    color: #ff69b4;
+}
+
+#theme-selection button {
+    font-size: 2rem;
+    padding: 20px 40px;
+    margin: 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#theme-selection button:hover {
+    transform: scale(1.1);
+}
+
+#animals-btn {
+    background-color: #ffd700;
+}
+
+#fruits-btn {
+    background-color: #90ee90;
+}
+
+.hidden {
+    display: none;
+}
+
+#piano-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#follow-me-btn {
+    position: absolute;
+    top: 20px;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ff69b4;
+    color: white;
+    cursor: pointer;
+}
+
+.piano-key {
+    flex: 1;
+    height: 100%;
+    border: 2px solid #333;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emoji {
+    font-size: 4rem;
+}
+
+.piano-key.active {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
