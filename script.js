@@ -55,35 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const fruitEmojis = ['🍓', '🍌', '🍎', '🍊', '🍇', '🍉'];
     let idleAnimation;
     let sequence = [];
-    let playerSequence = [];
     let gameInProgress = false;
-
-    document.getElementById('follow-me-btn').addEventListener('click', () => {
-        if (!gameInProgress) {
-            startFollowMeGame();
-        }
-    });
+    let followMeTimeout;
 
     function startFollowMeGame() {
         gameInProgress = true;
         sequence = [];
-        playerSequence = [];
         addNewStepToSequence();
         playSequence();
     }
 
     function addNewStepToSequence() {
         sequence.push(Math.floor(Math.random() * 6));
-    }
-
-    function checkPlayerSequence() {
-        if (playerSequence.length === sequence.length) {
-            setTimeout(() => {
-                playerSequence = [];
-                addNewStepToSequence();
-                playSequence();
-            }, 1000);
-        }
     }
 
     function playSequence() {
@@ -117,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function stopIdleAnimation() {
         clearInterval(idleAnimation);
+        clearTimeout(followMeTimeout);
     }
 
     function playSound(index) {
@@ -167,15 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
             key.addEventListener('mousedown', () => {
                 key.classList.add('active');
                 playSound(i);
-                if (gameInProgress) {
-                    playerSequence.push(i);
-                    checkPlayerSequence();
-                }
             });
 
             key.addEventListener('mouseup', () => {
                 key.classList.remove('active');
-                setTimeout(startIdleAnimation, 2000);
+                clearTimeout(followMeTimeout);
+                followMeTimeout = setTimeout(startFollowMeGame, 5000);
+                startIdleAnimation();
             });
 
             key.addEventListener('mouseleave', () => {
