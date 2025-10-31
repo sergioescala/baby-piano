@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const animalEmojis = ['🐱', '🐶', '🐮', '🐑', '🐴', '🐷'];
-    const fruitEmojis = ['🍓', '🍌', '🍎', '🍊', '🍇', '🍉'];
+    const fruitEmojis = ['🍉', '🍇', '🍓', '🍊', '🍌', '🍍'];
     let idleAnimation;
     let sequence = [];
     let gameInProgress = false;
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createPianoKeys(theme) {
-        const colors = ['#ff5252', '#ff793f', '#ffb142', '#ffe270', '#a5d6a7', '#64b5f6'];
+        const colors = ['#ff4d4d', '#ffa54d', '#ffff4d', '#4dff4d', '#4d4dff', '#a54dff'];
         const frequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00];
 
         for (let i = 0; i < 6; i++) {
