@@ -1,46 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const themeSelection = document.getElementById('theme-selection');
     const pianoContainer = document.getElementById('piano-container');
-    const animalsBtn = document.getElementById('animals-btn');
-    const fruitsBtn = document.getElementById('fruits-btn');
-    let currentTheme = '';
-    let audioContext;
-
-    try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    } catch (e) {
-        console.error('Web Audio API is not supported in this browser');
-    }
-
-    class Sound {
-        constructor(context) {
-            this.context = context;
-        }
-
-        init() {
-            this.oscillator = this.context.createOscillator();
-            this.gainNode = this.context.createGain();
-
-            this.oscillator.connect(this.gainNode);
-            this.gainNode.connect(this.context.destination);
-            this.oscillator.type = 'sine';
-        }
-
-        play(value, time) {
-            this.init();
-
-            this.oscillator.frequency.value = value;
-            this.gainNode.gain.setValueAtTime(1, this.context.currentTime);
-
-            this.oscillator.start(time);
-            this.stop(time);
-        }
-
-        stop(time) {
-            this.gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
-            this.oscillator.stop(time + 0.5);
-        }
-    }
+    const currentTheme = 'animals';
 
     const animalSounds = {
         '0': 'sounds/cat.mp3',
@@ -48,11 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         '2': 'sounds/cow.mp3',
         '3': 'sounds/sheep.mp3',
         '4': 'sounds/horse.mp3',
-        '5': 'sounds/pig.mp3'
+        '5': 'sounds/pig.mp3',
+        '6': 'sounds/lion.mp3',
+        '7': 'sounds/monkey.mp3',
+        '8': 'sounds/duck.mp3'
     };
 
-    const animalEmojis = ['🐱', '🐶', '🐮', '🐑', '🐴', '🐷'];
-    const fruitEmojis = ['🍉', '🍇', '🍓', '🍊', '🍌', '🍍'];
+    const animalEmojis = ['🐱', '🐶', '🐮', '🐑', '🐴', '🐷', '🦁', '🐵', '🦆'];
     let idleAnimation;
     let sequence = [];
     let gameInProgress = false;
@@ -66,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addNewStepToSequence() {
-        sequence.push(Math.floor(Math.random() * 6));
+        sequence.push(Math.floor(Math.random() * 9));
     }
 
     function playSequence() {
@@ -105,45 +67,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function playSound(index) {
         stopIdleAnimation();
-        if (currentTheme === 'fruits' && audioContext) {
-            const frequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00];
-            const note = new Sound(audioContext);
-            const now = audioContext.currentTime;
-            note.play(frequencies[index], now);
-        } else if (currentTheme === 'animals') {
-            const audio = new Audio(animalSounds[index]);
-            audio.play();
-        }
+        const audio = new Audio(animalSounds[index]);
+        audio.play();
     }
 
-    animalsBtn.addEventListener('click', () => {
-        startGame('animals');
-    });
+    createPianoKeys();
+    startIdleAnimation();
 
-    fruitsBtn.addEventListener('click', () => {
-        startGame('fruits');
-    });
+    function createPianoKeys() {
+        const colors = ['#ff4d4d', '#ffa54d', '#ffff4d', '#4dff4d', '#4d4dff', '#a54dff', '#ff4da5', '#4dffff', '#a5ff4d'];
 
-    function startGame(theme) {
-        currentTheme = theme;
-        themeSelection.classList.add('hidden');
-        pianoContainer.classList.remove('hidden');
-        createPianoKeys(theme);
-        startIdleAnimation();
-    }
-
-    function createPianoKeys(theme) {
-        const colors = ['#ff4d4d', '#ffa54d', '#ffff4d', '#4dff4d', '#4d4dff', '#a54dff'];
-        const frequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00];
-
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 9; i++) {
             const key = document.createElement('div');
             key.classList.add('piano-key');
             key.style.backgroundColor = colors[i];
 
             const emojiSpan = document.createElement('span');
             emojiSpan.classList.add('emoji');
-            emojiSpan.textContent = currentTheme === 'animals' ? animalEmojis[i] : fruitEmojis[i];
+            emojiSpan.textContent = animalEmojis[i];
             key.appendChild(emojiSpan);
 
             pianoContainer.appendChild(key);
